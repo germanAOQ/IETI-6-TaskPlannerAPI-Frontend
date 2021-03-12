@@ -50,6 +50,7 @@ function CenteredGrid(){
 	const [username, setUsername] = useState(0);
 	const [password, setPassword] = useState(0);
 	const [userList, setUserList] = useState([]);
+	const [first, setFirst] = useState(true);
 	
 	
 	function handleClick(){
@@ -81,21 +82,22 @@ function CenteredGrid(){
 	
 	
 	function componentDidMount() {
-		console.log("sdlkasjdlkasjdlkasjdlkasjdlksadjlksadjlkasdjlkasjdlkasjdlkasdjlksadjlkas");
+		setFirst(false);
         fetch("http://ieti-backend-taskplanner.eastus.azurecontainer.io:8080/users")
             .then(response => response.json())
             .then(data => {
-                //let usersList = [];
+                let usersList = [];
                 data.forEach(function (user) {
-                    userList.push(user)
+					usersList.push(user);
 
                 });
-                //setUserList(usersList)
+                setUserList(usersList)
             });
     }
 	
 		return(
 			  <Container maxWidth="sm">
+				{first ? componentDidMount():console.log("No first")}
 				{localStorage.setItem("userIETI",["userIETI@mail.com", "passwordIETI"])}
 				  <div className={classes.root}>
 					   <Grid container
@@ -178,7 +180,6 @@ function CenteredGrid(){
 					  alignItems="stretch"
 					  spacing={3}>
 						<h1>Some of our users</h1>
-						{componentDidMount()}
 						<UserList lista={userList} />
 						</Grid>
 					</div>
